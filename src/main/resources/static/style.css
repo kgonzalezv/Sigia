@@ -1,0 +1,32 @@
+.tablaTop{
+    margin-top: 5rem;
+}
+.productoLabel{
+    font-size: 60px;
+    color: rgb(58, 65, 72);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-top: 2rem;
+}
+
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #7a2929, #814344, #59424b, #1f191f);
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #333232, #805a5a, #ab3b3b, #983434);
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
