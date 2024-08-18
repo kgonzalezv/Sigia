@@ -2,46 +2,50 @@ package com.ltp.sigia.controller;
 
 import com.ltp.sigia.model.Category;
 import com.ltp.sigia.model.Product;
-import com.ltp.sigia.repository.CategoryRepository;
-import com.ltp.sigia.repository.ProductRepository;
+import com.ltp.sigia.model.User;
+import com.ltp.sigia.service.CategoryService;
+import com.ltp.sigia.service.ProductService;
+import com.ltp.sigia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.rmi.MarshalledObject;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequestMapping("/productos")
 public class ProductController {
 
     @Autowired
-    ProductRepository productRepository;
+    ProductService productService;
 
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
 
+    @Autowired
+    UserService userService;
 
-    @PostMapping("/nuevoProducto")
-    public String submitProducto(Product producto, BindingResult result) {
-        productRepository.save(producto);
-        return "redirect:/productos";
-    }
-
-    @GetMapping("/productos")
+    @GetMapping( "/")
     public String getProductos(Model model) {
-        model.addAttribute("productos", productRepository.findAll());
+        model.addAttribute("productos", productService.getProductos());
+        model.addAttribute("producto", new Product());
+        model.addAttribute("categorias", categoryService.getCategories());
         return "productos";
     }
-
-    @GetMapping("/")
-    public String mostrarFormularioDeCreacion(Model model) {
-        List<Category> categorias = categoryRepository.findAll();
-        model.addAttribute("categorias", categorias);
-        model.addAttribute("producto", new Product());
+    @PostMapping("/nuevo")
+    public String submitProducto( @ModelAttribute("producto") Product producto) {
+        productService.crearProducto(producto);
         return "redirect:/productos";
     }
+
+  /*  @PostMapping("/login")
+    public String login(@ModelAttribute("user")User user){
+        Optional<User> found = userService.getUser(user.getUsername(), user.getPassword());
+       return found.isPresent()? "productos": "Not found";
+    }*/
+
 
 }
