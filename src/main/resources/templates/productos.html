@@ -109,7 +109,7 @@
                             <select id="categoria" class="form-control" th:field="*{categoria}">
                                 <option value="">Seleccione una categoría</option>
                                 <option th:each="categoria : ${categorias}"
-                                        th:value="${categoria}"
+                                        th:value="${categoria.id}"
                                         th:text="${categoria.nombre}">
                                 </option>
                             </select>

@@ -28,7 +28,7 @@ public class ProductController {
     @Autowired
     UserService userService;
 
-    @GetMapping( "/")
+    @GetMapping( "")
     public String getProductos(Model model) {
         model.addAttribute("productos", productService.getProductos());
         model.addAttribute("producto", new Product());
