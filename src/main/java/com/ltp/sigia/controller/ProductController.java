@@ -25,27 +25,44 @@ public class ProductController {
     @Autowired
     CategoryService categoryService;
 
-    @Autowired
-    UserService userService;
-
-    @GetMapping( "")
-    public String getProductos(Model model) {
-        model.addAttribute("productos", productService.getProductos());
+    @GetMapping("")
+    public String getProductos(@RequestParam(value = "nombreODescripcion", required = false) String nombreOrDescripcion, Model model) {
+        List<Product> productosFiltrados = productService.buscarProductosPorNombreOrDescripcion(nombreOrDescripcion);
+        if (nombreOrDescripcion != null && !nombreOrDescripcion.isEmpty()) {
+            model.addAttribute("productos", productosFiltrados);
+        } else {
+            model.addAttribute("productos", productService.getProductos());
+        }
         model.addAttribute("producto", new Product());
         model.addAttribute("categorias", categoryService.getCategories());
         return "productos";
     }
+
     @PostMapping("/nuevo")
-    public String submitProducto( @ModelAttribute("producto") Product producto) {
+    public String submitProducto(@ModelAttribute("producto") Product producto) {
         productService.crearProducto(producto);
         return "redirect:/productos";
     }
 
-  /*  @PostMapping("/login")
-    public String login(@ModelAttribute("user")User user){
-        Optional<User> found = userService.getUser(user.getUsername(), user.getPassword());
-       return found.isPresent()? "productos": "Not found";
-    }*/
+    @GetMapping("/eliminar/{id}")
+    public String eliminarPorId(@PathVariable Long id) {
+        productService.eliminarProductoPorId(id);
+        return "redirect:/productos";
+    }
 
+    @GetMapping("/editar/{id}")
+    public String mostrarModal(@PathVariable("id") Long id, Model model) {
+        Optional<Product> productOptional = productService.getProductoPorId(id);
+        Product product = productOptional.get();
+        model.addAttribute("producto", product);
+        model.addAttribute("categorias", product.getCategoria());
+        return "fragments/modalEditarProducto";
+    }
+
+    @PostMapping("/actualizar/{id}")
+    public String actualizar(@ModelAttribute("producto") Product product) {
+        productService.actualizarProducto(product);
+        return "redirect:/productos";
+    }
 
 }

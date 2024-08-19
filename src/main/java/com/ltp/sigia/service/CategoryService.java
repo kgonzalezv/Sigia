@@ -3,6 +3,7 @@ package com.ltp.sigia.service;
 import com.ltp.sigia.model.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryService {
     List<Category> getCategories();
@@ -12,5 +13,7 @@ public interface CategoryService {
 
     Category actualizarCategoria(Category category);
 
-    Category getCategoriaPorId(Long id);
+    Optional<Category> getCategoriaPorId(Long id);
+
+    List<Category> buscarCategoriasPorNombreODescripcion(String nombre);
 }

@@ -9,6 +9,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!--    <link rel="stylesheet" href="../static/style.css">-->
     <link th:href="@{/style.css}" rel="stylesheet">
+    <script th:src="@{/js/script.js}" defer></script>
 </head>
 <body>
 
@@ -39,8 +40,9 @@
 <div class="container tablaTop">
     <div class="row">
         <div class="col-md-6 ">
-            <form class="d-flex " role="search">
-                <input class="form-control " type="search" placeholder="Buscar" aria-label="Search">
+            <form class="d-flex " role="search" method="get" th:action="@{/productos}">
+                <input class="form-control " type="text" name="nombreODescripcion" placeholder="Buscar"
+                       th:value="${nombreODescripcion}">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
         </div>
@@ -69,11 +71,15 @@
             <td th:text="${producto.precio}"></td>
             <td th:text="${producto.cantidad}"></td>
             <td class="d-flex justify-content-end grid gap-3">
-                <button type="button" class="btn btn-danger">Eliminar</button>
-                <button type="button" class="btn btn-warning">Editar</button>
+                <a type="submit" class="btn btn-danger" th:href="@{/productos/eliminar/{id}(id=${producto.getId()})}">Eliminar</a>
+                <a type="button" class="btn btn-warning"
+                   data-bs-toggle="modal" data-bs-target="#editarModalProducto" th:attr="data-id=${producto.id}"
+                   onclick="cargarDatosModalProducto(this)">Editar</a>
             </td>
         </tr>
     </table>
+
+    <!-- Modal Agregar Nuevo-->
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -124,6 +130,29 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal Actuaizar Nuevo-->
+
+
+    <div class="modal fade" id="editarModalProducto" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel2">Actualizar Producto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div th:replace="/fragments/modalEditarProducto"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

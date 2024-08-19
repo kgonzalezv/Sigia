@@ -1,0 +1,48 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+<div id="modalContentFormEditProducto">
+    <form method="post" th:action="@{/productos/actualizar/{id}(id=${producto.id})}" th:object="${producto}">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" th:field="*{nombre}">
+            </div>
+            <div class="col-md-6">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input type="text" class="form-control" id="descripcion" th:field="*{descripcion}">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="text" class="form-control" id="precio" th:field="*{precio}">
+            </div>
+            <div class="col-md-6">
+                <label for="cantidad" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" id="cantidad" th:field="*{cantidad}">
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" class="form-control mt-2" th:field="*{categoria}">
+                <option value="">Seleccione una categoría</option>
+                <option th:each="categoria : ${categorias}"
+                        th:value="${categoria.id}"
+                        th:text="${categoria.nombre}">
+                </option>
+            </select>
+        </div>
+        <div class="mt-5 d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -35,7 +36,12 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Category getCategoriaPorId(Long id) {
-        return categoryRepository.getById(id);
+    public Optional<Category> getCategoriaPorId(Long id) {
+        return categoryRepository.findById(id);
+    }
+
+    @Override
+    public List<Category> buscarCategoriasPorNombreODescripcion(String nombreODescripcion) {
+        return categoryRepository.findByNombreOrDescripcion(nombreODescripcion, nombreODescripcion);
     }
 }
