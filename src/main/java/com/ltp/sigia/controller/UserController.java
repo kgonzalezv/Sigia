@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 
@@ -16,10 +18,19 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/login")
-    public String login(Model model,  String username, String password){
-        Optional<User> user = userService.getUser(username, password);
-       return user.isPresent() ? "User login": "No presente";
+    @GetMapping("")
+    public String formularioLogin(Model model){
+        model.addAttribute("user", new User());
+        return "index";
+    }
+
+    @PostMapping("/login")
+    public String login(User user){
+        Optional<User> userOp = userService.getUser(user.getUsername(), user.getPassword());
+        if(userOp.isPresent()){
+            return "redirect:/productos";
+        }
+       return "redirect:/error";
     }
 
 }

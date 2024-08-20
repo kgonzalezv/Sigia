@@ -1,8 +1,6 @@
 package com.ltp.sigia.controller;
 
 import com.ltp.sigia.model.Category;
-import com.ltp.sigia.repository.CategoryRepository;
-import com.ltp.sigia.repository.ProductRepository;
 import com.ltp.sigia.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

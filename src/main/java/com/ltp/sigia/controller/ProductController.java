@@ -53,7 +53,7 @@ public class ProductController {
     @GetMapping("/editar/{id}")
     public String mostrarModal(@PathVariable("id") Long id, Model model) {
         Optional<Product> productOptional = productService.getProductoPorId(id);
-        Product product = productOptional.get();
+        var product = productOptional.get();
         model.addAttribute("producto", product);
         model.addAttribute("categorias", product.getCategoria());
         return "fragments/modalEditarProducto";
