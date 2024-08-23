@@ -18,7 +18,6 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-
     @GetMapping("")
     public String getCategorias(@RequestParam(value = "nombreODescricion", required = false) String nombreOrDescripcion, Model model) {
         List<Category> categories = categoryService.getCategories();

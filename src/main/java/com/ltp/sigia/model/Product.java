@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -19,11 +21,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
+
+    @NotBlank(message = "Nombre no puede estar en blanco")
     private String nombre;
+
+    @NotBlank(message = "Debe asignar una descripción")
     private String descripcion;
+
+    @NotNull(message = "Debe asignar un precio")
     private BigDecimal precio;
+
+    @NotNull(message = "Debe asignar una cantidad")
     private Integer cantidad;
 
+    @NotNull(message = "Debe asignar una categoria")
     @ManyToOne
     private Category categoria;
 

@@ -11,6 +11,7 @@
     <link th:href="@{/style.css}" rel="stylesheet">
     <script th:src="@{/js/script.js}" defer></script>
     <link rel="icon" href="/images/logo3.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -72,7 +73,8 @@
             <td th:text="${producto.precio}"></td>
             <td th:text="${producto.cantidad}"></td>
             <td class="d-flex justify-content-end grid gap-3">
-                <a type="submit" class="btn btn-danger" th:href="@{/productos/eliminar/{id}(id=${producto.getId()})}">Eliminar</a>
+                <a type="submit" class="btn btn-danger" th:href="@{'/productos/eliminar/' + ${producto.id}}"
+                   onclick="confirmarElimincacion(event)">Eliminar</a>
                 <a type="button" class="btn btn-warning"
                    data-bs-toggle="modal" data-bs-target="#editarModalProducto" th:attr="data-id=${producto.id}"
                    onclick="cargarDatosModalProducto(this)">Editar</a>
@@ -80,8 +82,20 @@
         </tr>
     </table>
 
-    <!-- Modal Agregar Nuevo-->
+    <!--    Alerta de operacion exitosa-->
+    <script th:inline="javascript">
+        let alerta = [[${alerta}]];
+        if (alerta) {
+            Swal.fire(
+                'Éxito',
+                alerta,
+                'success'
+            )
+        }
+    </script>
 
+
+    <!-- Modal Agregar Nuevo-->=
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -95,24 +109,29 @@
                             <div class="col-md-6">
                                 <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" th:field="*{nombre}">
+                                <p style="color:red" th:errors="*{nombre}"></p>
                             </div>
                             <div class="col-md-6">
                                 <label for="descripcion" class="form-label">Descripción</label>
                                 <input type="text" class="form-control" id="descripcion" th:field="*{descripcion}">
+                                <p style="color:red" th:errors="*{descripcion}"></p>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-6">
                                 <label for="precio" class="form-label">Precio</label>
                                 <input type="text" class="form-control" id="precio" th:field="*{precio}">
+                                <p style="color:red" th:errors="*{precio}"></p>
                             </div>
                             <div class="col-md-6">
                                 <label for="cantidad" class="form-label">Cantidad</label>
                                 <input type="number" class="form-control" id="cantidad" th:field="*{cantidad}">
+                                <p style="color:red" th:errors="*{cantidad}"></p>
                             </div>
                         </div>
                         <div class="form-group mt-3">
                             <label for="categoria">Categoría</label>
+                            <p style="color:red" th:errors="*{categoria.id}"></p>
                             <select id="categoria" class="form-control" th:field="*{categoria}">
                                 <option value="">Seleccione una categoría</option>
                                 <option th:each="categoria : ${categorias}"
@@ -122,7 +141,9 @@
                             </select>
                         </div>
                         <div class="mt-5 d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Crear Nuevo</button>
+                            <button class="btn btn-primary"
+                                    id="btnCrearProducto">Crear Nuevo
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -131,32 +152,32 @@
             </div>
         </div>
     </div>
+</div>
 
 
-    <!-- Modal Actuaizar Nuevo-->
+<!-- Modal Actuaizar Nuevo-->
 
 
-    <div class="modal fade" id="editarModalProducto" tabindex="-1" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel2">Actualizar Producto</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div th:replace="/fragments/modalEditarProducto"></div>
-                </div>
-                <div class="modal-footer">
-                </div>
+<div class="modal fade" id="editarModalProducto" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel2">Actualizar Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div th:replace="/fragments/modalEditarProducto"></div>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>
-
-
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+
 </body>
 </html>
